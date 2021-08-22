@@ -278,10 +278,10 @@ typedef void (CALLBACK *pUVSFrameCallback)(uvsobj_handle obj, const uvs_frame_in
 typedef void (CALLBACK *pUVSDrawCallback)(uvsobj_handle obj, void *pUserData);
 
 typedef enum {
-	max_uvs_osd_index_preview_enc = 255, /* index [0, max_uvs_osd_index_preview_enc], OSD preview + encode */
-	time_uvs_osd_index_preview_enc = max_uvs_osd_index_preview_enc, /* time OSD preview + encode */
-	max_uvs_osd_index_preview_only = 511, /* index (max_uvs_osd_index_preview_enc, max_uvs_osd_index_preview_only], OSD preview only */
-	time_uvs_osd_index_preview_only = max_uvs_osd_index_preview_only /* time OSD preview only */
+	uvs_osd_index_preview_enc = 0, /* index [uvs_osd_index_preview_enc, uvs_time_osd_index_preview_enc], OSD preview + encode */
+	uvs_time_osd_index_preview_enc = 255, /* time OSD preview + encode */
+	uvs_osd_index_preview_only, /* index [uvs_osd_index_preview_only, uvs_time_osd_index_preview_only], OSD preview only */
+	uvs_time_osd_index_preview_only = 511 /* time OSD preview only */
 } uvs_osd_index_e;
 
 #define UVS_TIMEMODE_YMD_24H "%Y-%M-%D %H:%m:%s" /* 24 hours */
