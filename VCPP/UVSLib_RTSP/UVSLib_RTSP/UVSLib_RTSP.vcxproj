@@ -100,7 +100,7 @@
       <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <PostBuildEvent>
-      <Command>copy ..\..\..\WindowsSDK\lib\win32\*.dll $(OutDir)</Command>
+      <Command>copy "$(SolutionDir)..\..\WindowsSDK\lib\win32\*.dll" $(OutDir)</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -124,7 +124,7 @@
       <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <PostBuildEvent>
-      <Command>copy ..\..\..\WindowsSDK\lib\x64\*.dll $(OutDir)</Command>
+      <Command>copy "$(SolutionDir)..\..\WindowsSDK\lib\x64\*.dll" $(OutDir)</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -153,7 +153,7 @@
       <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <PostBuildEvent>
-      <Command>copy ..\..\..\WindowsSDK\lib\win32\*.dll $(OutDir)</Command>
+      <Command>copy "$(SolutionDir)..\..\WindowsSDK\lib\win32\*.dll" $(OutDir)</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -181,7 +181,7 @@
       <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <PostBuildEvent>
-      <Command>copy ..\..\..\WindowsSDK\lib\x64\*.dll $(OutDir)</Command>
+      <Command>copy "$(SolutionDir)..\..\WindowsSDK\lib\x64\*.dll" $(OutDir)</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>

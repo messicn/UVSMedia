@@ -46,8 +46,8 @@ END_MESSAGE_MAP()
 // CUVSLib_OSDDlg dialog
 
 enum {
-	TIME_OSD_INDEX = uvs_time_osd_index_preview_only,//uvs_time_osd_index_preview_enc, /* uvs_time_osd_index_preview_only, */
-	BASE_OSD_INDEX = uvs_osd_index_preview_only,//uvs_osd_index_preview_enc, /* uvs_osd_index_preview_only, */
+	TIME_OSD_INDEX = uvs_time_osd_index_preview_enc, /* uvs_time_osd_index_preview_only, */
+	BASE_OSD_INDEX = uvs_osd_index_preview_enc, /* uvs_osd_index_preview_only, */
 	TEXT_OSD_INDEX,
 	IMAGE_OSD_INDEX,
 	RECT_OSD_INDEX,
