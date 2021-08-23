@@ -161,7 +161,7 @@ namespace UVS_DataFrame
 
             if (index >= (int)Frame.PCM)
             { // audio
-                Debug.WriteLine("{0} channels {1} bits per sample: {2} samples per second: {3} data {4} size {5} ts {6}",
+                Debug.WriteLine("{0} channels {1} bits per sample {2} samples per second {3} data {4} size {5} ts {6}",
                         str[index], info.audioChannels, info.audioBitsPerSample, info.audioSamplesPerSec,
                         info.frameData.ToString("X"), info.frameDataLen, info.timeStamp);
             }
