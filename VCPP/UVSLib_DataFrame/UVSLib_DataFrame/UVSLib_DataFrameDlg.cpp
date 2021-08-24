@@ -11,9 +11,6 @@
 #define new DEBUG_NEW
 #endif
 
-#include <unordered_map>
-static std::unordered_map< uvs_frame_type_e, LPCTSTR > FrameTypeNameMap;
-
 #define COPY_FRAME_TO_USER_BUFFER 0
 
 // CAboutDlg dialog used for App About
@@ -49,70 +46,118 @@ END_MESSAGE_MAP()
 
 // CUVSLib_DataFrameDlg dialog
 
-static void DataFramePrint(const uvs_frame_info_t *pFrameData)
+static void FrameInfoPrint(const uvs_frame_info_t &Frame)
 {
-	CString str;
-	switch (pFrameData->frameType) {
+	enum { NONE, YUY2, UYVY, YV12,
+			I420, NV12, NV21, I422,
+			I444, BGR24, RGB24, ARGB32,
+			RGBA32, ABGR32, BGRA32, MJPG,
+			H264IDR, H264I, H264P, H264B,
+			H265IDR, H265I, H265P, H265B,
+			PCM, MP3, AAC };
+	LPCTSTR str[] = { _T("NONE"), _T("Video: YUY2"), _T("Video: UYVY"), _T("Video: YV12"),
+					_T("Video: I420"), _T("Video: NV12"), _T("Video: NV21"), _T("Video: I422"),
+					_T("Video: I444"), _T("Video: BGR24"), _T("Video: RGB24"), _T("Video: ARGB32"),
+					_T("Video: RGBA32"), _T("Video: ABGR32"), _T("Video: BGRA32"), _T("Video: MJPG"),
+					_T("Video: H.264(AVC) IDR"), _T("Video: H.264(AVC) I"), _T("Video: H.264(AVC) P"), _T("Video: H.264(AVC) B"),
+					_T("Video: H.265(HEVC) IDR"), _T("Video: H.265(HEVC) I"), _T("Video: H.265(HEVC) P"), _T("Video: H.265(HEVC) B"),
+					_T("Audio: PCM"), _T("Audio: MP3"), _T("Audio: AAC") };
+
+	int index;
+	switch (Frame.frameType)
+	{
 	case uvs_frame_video_YUY2:
+		index = YUY2; break;
 	case uvs_frame_video_UYVY:
+		index = UYVY; break;
 	case uvs_frame_video_YV12:
+		index = YV12; break;
 	case uvs_frame_video_I420:
+		index = I420; break;
 	case uvs_frame_video_NV12:
+		index = NV12; break;
 	case uvs_frame_video_NV21:
+		index = NV21; break;
 	case uvs_frame_video_I422:
+		index = I422; break;
 	case uvs_frame_video_I444:
+		index = I444; break;
 	case uvs_frame_video_BGR24:
+		index = BGR24; break;
 	case uvs_frame_video_RGB24:
+		index = RGB24; break;
 	case uvs_frame_video_ARGB32:
+		index = ARGB32; break;
 	case uvs_frame_video_RGBA32:
+		index = RGBA32; break;
 	case uvs_frame_video_ABGR32:
+		index = ABGR32; break;
 	case uvs_frame_video_BGRA32:
+		index = BGRA32; break;
 	case uvs_frame_video_MJPG:
+		index = MJPG; break;
 	case uvs_frame_video_H264_IDR:
+		index = H264IDR; break;
 	case uvs_frame_video_H264_I:
+		index = H264I; break;
 	case uvs_frame_video_H264_P:
+		index = H264P; break;
+	case uvs_frame_video_H264_B:
+		index = H264B; break;
 	case uvs_frame_video_H265_IDR:
+		index = H265IDR; break;
 	case uvs_frame_video_H265_I:
+		index = H265I; break;
 	case uvs_frame_video_H265_P:
-		str.Format(_T("%s width %u height %u stride %u %u data %#p size %u timestamp %lld\n"),
-					FrameTypeNameMap[pFrameData->frameType],
-					pFrameData->videoWidth,
-					pFrameData->videoHeight,
-					pFrameData->videoDataStride[0],
-					pFrameData->videoDataStride[1],
-					pFrameData->frameData,
-					pFrameData->frameDataLen,
-					pFrameData->timeStamp);
-		break;
-
+		index = H265P; break;
+	case uvs_frame_video_H265_B:
+		index = H265B; break;
 	case uvs_frame_audio_PCM:
+		index = PCM; break;
 	case uvs_frame_audio_MP3:
+		index = MP3; break;
 	case uvs_frame_audio_AAC:
-		str.Format(_T("%s channels %u bits per sample %u samples per second %u data %#p size %u timestamp %lld\n"),
-					FrameTypeNameMap[pFrameData->frameType],
-					pFrameData->audioChannels,
-					pFrameData->audioBitsPerSample,
-					pFrameData->audioSamplesPerSec,
-					pFrameData->frameData,
-					pFrameData->frameDataLen,
-					pFrameData->timeStamp);
-		break;
-
-	case uvs_frame_NONE:
-		str = _T("Frame Type None\n");
-		break;
+		index = AAC; break;
 
 	default:
-		str.Format(_T("Unknow Frame Type %d\n"), pFrameData->frameType);
-		break;
+		index = NONE; break;
 	}
-	
-	OutputDebugString(str);
+
+	CString s;
+	if (index >= PCM)
+	{ // audio
+		s.Format(_T("%s channels %u bits per sample %u samples per second %u data %#p size %u timestamp %lld\n"),
+			str[index],
+			Frame.audioChannels,
+			Frame.audioBitsPerSample,
+			Frame.audioSamplesPerSec,
+			Frame.frameData,
+			Frame.frameDataLen,
+			Frame.timeStamp);
+	}
+	else if (index > NONE)
+	{
+		s.Format(_T("%s width %u height %u stride %u %u data %#p size %u timestamp %lld\n"),
+			str[index],
+			Frame.videoWidth,
+			Frame.videoHeight,
+			Frame.videoDataStride[0],
+			Frame.videoDataStride[1],
+			Frame.frameData,
+			Frame.frameDataLen,
+			Frame.timeStamp);
+	}
+	else
+	{
+		s = str[NONE];
+	}
+
+	OutputDebugString(s);
 }
 
-static void CALLBACK DataFrameCallback(uvsobj_handle obj, const uvs_frame_info_t *pFrameData, void *pUserData)
+static void CALLBACK DataFrameCallback(uvsobj_handle obj, const uvs_frame_info_t *pFrame, void *pUserData)
 {
-	DataFramePrint(pFrameData);
+	if (pFrame) FrameInfoPrint(*pFrame);
 }
 
 
@@ -194,33 +239,6 @@ BOOL CUVSLib_DataFrameDlg::OnInitDialog()
 		m_Dev.DeviceStart();
 		m_Dev.PreviewStart(GetDlgItem(IDC_VIDEO)->GetSafeHwnd());
 	}
-
-	FrameTypeNameMap[uvs_frame_video_YUY2] = _T("Video: YUY2");
-	FrameTypeNameMap[uvs_frame_video_UYVY] = _T("Video: UYVY");
-	FrameTypeNameMap[uvs_frame_video_YV12] = _T("Video: YV12");
-	FrameTypeNameMap[uvs_frame_video_I420] = _T("Video: I420");
-	FrameTypeNameMap[uvs_frame_video_NV12] = _T("Video: NV12");
-	FrameTypeNameMap[uvs_frame_video_NV21] = _T("Video: NV21");
-	FrameTypeNameMap[uvs_frame_video_I422] = _T("Video: I422");
-	FrameTypeNameMap[uvs_frame_video_I444] = _T("Video: I444");
-	FrameTypeNameMap[uvs_frame_video_BGR24] = _T("Video: BGR24");
-	FrameTypeNameMap[uvs_frame_video_RGB24] = _T("Video: RGB24");
-	FrameTypeNameMap[uvs_frame_video_ARGB32] = _T("Video: ARGB32");
-	FrameTypeNameMap[uvs_frame_video_RGBA32] = _T("Video: RGBA32");
-	FrameTypeNameMap[uvs_frame_video_ABGR32] = _T("Video: ABGR32");
-	FrameTypeNameMap[uvs_frame_video_BGRA32] = _T("Video: BGRA32");
-	FrameTypeNameMap[uvs_frame_video_MJPG] = _T("Video: JPEG");
-	FrameTypeNameMap[uvs_frame_video_H264_IDR] = _T("Video: H.264(AVC) IDR");
-	FrameTypeNameMap[uvs_frame_video_H264_I] = _T("Video: H.264(AVC) I");
-	FrameTypeNameMap[uvs_frame_video_H264_P] = _T("Video: H.264(AVC) P");
-	FrameTypeNameMap[uvs_frame_video_H264_B] = _T("Video: H.264(AVC) B");
-	FrameTypeNameMap[uvs_frame_video_H265_IDR] = _T("Video: H.265(HEVC) IDR");
-	FrameTypeNameMap[uvs_frame_video_H265_I] = _T("Video: H.265(HEVC) I");
-	FrameTypeNameMap[uvs_frame_video_H265_P] = _T("Video: H.265(HEVC) P");
-	FrameTypeNameMap[uvs_frame_video_H265_B] = _T("Video: H.265(HEVC) B");
-	FrameTypeNameMap[uvs_frame_audio_PCM] = _T("Audio: PCM");
-	FrameTypeNameMap[uvs_frame_audio_MP3] = _T("Audio: MP3");
-	FrameTypeNameMap[uvs_frame_audio_AAC] = _T("Audio: AAC");
 
 	GetDlgItem(IDC_ENCODE_AUDIO)->EnableWindow(count > 0);
 	GetDlgItem(IDC_AUDIO_COPY)->EnableWindow(count > 0);
@@ -356,17 +374,11 @@ void CUVSLib_DataFrameDlg::OnBnClickedVideoRaw()
 	// TODO: Add your control notification handler code here
 	if (m_Dev)
 	{
-		//static uvsobj_handle handle = dev_create_frame_preview(GetDlgItem(IDC_TEST)->GetSafeHwnd(), disp_type_d3d);
 		if (m_Dev.SetVideoRawFrameCallback(m_bVideoCallback ? NULL : DataFrameCallback) == UVS_OK)
 		{
 			m_bVideoCallback = !m_bVideoCallback;
 		}
-		/*
-		RECT rc;
-		GetDlgItem(IDC_TEST)->GetClientRect(&rc);
-		InflateRect(&rc, -50, -50);
-		dev_set_frame_preview_rect(handle, &rc, NULL, RGB(0, 0, 255));
-		*/
+		
 		SetDlgItemText(IDC_VIDEO_RAW, m_bVideoCallback ? _T("Video Raw Data Stop") : _T("Video Raw Data Callback"));
 	}
 }
@@ -444,7 +456,7 @@ void CUVSLib_DataFrameDlg::OnBnClickedVideoLock()
 		uvs_frame_info_t info;
 		if (m_Dev.LockVideoRawFrame(info) == UVS_OK)
 		{
-			DataFramePrint(&info);
+			FrameInfoPrint(info);
 			m_Dev.UnlockVideoRawFrame();
 		}
 	}
@@ -459,7 +471,7 @@ void CUVSLib_DataFrameDlg::OnBnClickedAudioLock()
 		uvs_frame_info_t info;
 		if (m_Dev.LockAudioRawFrame(info) == UVS_OK)
 		{
-			DataFramePrint(&info);
+			FrameInfoPrint(info);
 			m_Dev.UnlockAudioRawFrame();
 		}
 	}
@@ -501,7 +513,7 @@ void CUVSLib_DataFrameDlg::OnBnClickedVideoCopy()
 		}
 		else if (m_Dev.CopyVideoFrame(info) != UVS_OK) return;  // without conversion
 
-		DataFramePrint(&info);
+		FrameInfoPrint(info);
 	}
 }
 
@@ -522,7 +534,7 @@ void CUVSLib_DataFrameDlg::OnBnClickedAudioCopy()
 
 		if (m_Dev.CopyAudioRawFrame(info) == UVS_OK)
 		{
-			DataFramePrint(&info);
+			FrameInfoPrint(info);
 		}
 	}
 }
