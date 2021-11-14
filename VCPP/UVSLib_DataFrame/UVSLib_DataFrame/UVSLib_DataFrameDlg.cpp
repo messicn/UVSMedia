@@ -11,7 +11,7 @@
 #define new DEBUG_NEW
 #endif
 
-#define COPY_FRAME_TO_USER_BUFFER 0
+#define COPY_FRAME_TO_USER_BUFFER 1
 
 // CAboutDlg dialog used for App About
 
@@ -502,6 +502,10 @@ void CUVSLib_DataFrameDlg::OnBnClickedVideoCopy()
 		/* Set user buffer */
 		info.frameData = buf;
 		info.frameDataLen = sz;
+
+		/* Set data stride, 0 default */
+		/* info.videoDataStride[0] = 0; */
+		/* info.videoDataStride[1] = 0; */
 	#endif
 
 		if (convert.frameType != uvs_frame_NONE ||

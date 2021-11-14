@@ -169,6 +169,7 @@
             "YY-MM-DD",
             "MM-DD-YY",
             "DD-MM-YY",
+            "MN DD YY",
             "Mn DD YY"});
             this.date.Location = new System.Drawing.Point(169, 415);
             this.date.Name = "date";
