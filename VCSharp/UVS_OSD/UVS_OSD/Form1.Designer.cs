@@ -333,7 +333,7 @@
             "Roll",
             "Scroll 1",
             "Scroll 2",
-            "Rect Clean",
+            "Rect Clear",
             "Fade"});
             this.control.Location = new System.Drawing.Point(477, 545);
             this.control.Name = "control";
