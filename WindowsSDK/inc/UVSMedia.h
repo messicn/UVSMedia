@@ -33,6 +33,13 @@ typedef enum {
 	uvs_property_video_capture_pin
 } uvs_property_page_e;
 
+typedef struct {
+	DWORD devType;
+	DWORD devVersion;
+	char devDate[16];
+	BYTE devSN[16];
+} uvs_hardware_info_t;
+
 typedef enum {
 	uvs_draw_stretch,
 	uvs_draw_center
@@ -449,6 +456,8 @@ int UVSAPI uvs_dev_close(uvsobj_handle obj);
 
 int UVSAPI uvs_get_dev_info(uvsobj_handle obj, uvs_dev_info_t *devInfo);
 int UVSAPI uvs_get_dev_infoW(uvsobj_handle obj, uvs_dev_info_tW *devInfo);
+
+int UVSAPI uvs_query_hardware_info(uvsobj_handle obj, uvs_hardware_info_t *hwInfo);
 
 int UVSAPI uvs_enum_audio_format(uvsobj_handle obj, uvs_audio_format_t formats[], int *formatNum);
 int UVSAPI uvs_enum_video_format(uvsobj_handle obj, uvs_source_type_e sourceType, uvs_video_format_t formats[], int *formatNum);
