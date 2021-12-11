@@ -1,0 +1,19 @@
+为了应用兼容的需要，使用时请增加软链接到对应的动态库，否则会提示找不到对应的so文件。
+
+In order to apply the needs of compatibility, please add a soft link to the corresponding dynamic library when using, otherwise it will prompt that the corresponding so file cannot be found.
+
+例如增加软连接UVSCommon.so -> UVSCommon.so.0命令如下，假设当前在LinuxSDK目录下，以x86_64库为例
+
+For example, add a soft link UVSCommon.so -> UVSCommon.so.0 command as follows, assuming that it is currently in the LinuxSDK directory, taking the x86_64 library as an example
+
+cd lib/x86_64
+ln -s UVSCommon.so.0 UVSCommon.so
+
+需要增加的软连接有
+There are soft link that need to be added
+
+UVSMedia.so -> UVSMedia.so.1
+UVSCommon.so -> UVSCommon.so.0
+NvidiaCUDA.so -> NvidiaCUDA.so.0
+libopenh264.so.2.1.0 -> libopenh264.so
+IntelMedia.so -> IntelMedia.so.0
