@@ -1,0 +1,64 @@
+qt5 demo可以在Windows和Linux平台运行，其中Windows平台分为win32和x64两部分，Linux平台分为x86_64和aarch64(arm64)两部分。demo的源代码请查看QT5的示例程序，主要包括以下几部分内容：
+QT5 demos can run on both Windows and Linux platforms, where the Windows platform is divided into two parts, win32 and x64, and the Linux platform is divided into two parts: x86_64 and aarch64 (arm64). For the source code of the demo, please see the sample program of QT5, which mainly includes the following parts:
+
+1 UVS_Device
+设备管理，设备插入，移除；
+Device management, device plug in/out;
+
+2 UVS_Preview
+音视频预览，视频镜像，翻转，亮度，对比度；
+Audio and video preview, video mirroring, flipping, brightness, contrast;
+
+3 UVS_OSD
+视频OSD叠加，包括时间，文字，图片，矩形，椭圆，直线等；
+Video OSD, including time, text, pictures, rectangles, ellipses, straight lines, etc.;
+
+4 UVS_Rec
+音视频录像，包括H.264/265多路视频流编码，AAC/MP3音频编码，Intel/Nvidia视频编码加速等；
+Audio and video recording, including H.264/265 multi-channel video stream encoding, AAC/MP3 audio encoding, Intel/Nvidia video encoding acceleration, etc.;
+
+5 UVS_DataFrame
+音视频数据捕获，包括数据回调，拷贝和锁定方式；
+Audio and video data capture, including data callback, copy and lock methods;
+
+6 UVS_MP4File
+录像文件管理，包括录像截取，合并，修复和叠加片头；
+Recording file management, including video capture, merging, repairing and add titles;
+
+7 UVS_RTSP
+RTSP推流，包括实时流和MP4录像文件；
+RTSP push streaming, including live streaming and MP4 video files;
+
+8 UVS_RTMP
+RTMP推流，包括实时流和MP4录像文件；
+RTMP push streaming, including live streaming and MP4 video files;
+
+9 UVS_NDI
+NDI推流，原始无损音视频流。
+NDI push stream, lossless audio and video stream.
+
+demo运行程序已经打包为压缩文件，请根据需要使用：
+The demo has been packaged as a compressed file, please use it as needed:
+
+qt5-windows-x64-demo.zip
+Windows 64bit demo程序，解压缩后运行对应的demo程序。
+Windows 64bit demo program, decompress and run the corresponding demo program.
+
+qt5-linux-x64-demo.tar.gz
+Linux x86_64 demo程序，请按照以下方式运行
+Linux x86_64 demo program, please run it as follows
+
+tar -zxvf qt5-linux-x64-demo.tar.gz
+cd UVSDemo
+export LD_LIBRARY_PATH=.:$LD_LIBRARY_PATH
+./UVS_Device
+
+qt5-linux-arm64-demo.tar.gz
+Linux aarch64 demo程序，请按照以下方式运行
+Linux aarch64 demo program, please run it as follows
+
+tar -zxvf qt5-linux-arm64-demo.tar.gz
+cd UVSDemo
+export LD_LIBRARY_PATH=.:$LD_LIBRARY_PATH
+./UVS_Device
+
