@@ -1,5 +1,5 @@
 qt5 demo可以在Windows和Linux平台运行，其中Windows平台分为win32和x64两部分，Linux平台分为x86_64和aarch64(arm64)两部分。demo的源代码请查看QT5的示例程序，主要包括以下几部分内容：
-QT5 demos can run on both Windows and Linux platforms, where the Windows platform is divided into two parts, win32 and x64, and the Linux platform is divided into two parts: x86_64 and aarch64 (arm64). For the source code of the demo, please see the sample program of QT5, which mainly includes the following parts:
+QT5 demos can run on both Windows and Linux platforms, where the Windows platform is divided into two parts, win32 and x64, and the Linux platform is divided into two parts: x86_64 and aarch64 (arm64). For the source code of the demo, please see the demo source code of QT5, which mainly includes the following parts:
 
 1 UVS_Device
 设备管理，设备插入，移除；
