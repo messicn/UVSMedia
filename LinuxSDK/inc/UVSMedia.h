@@ -413,6 +413,8 @@ int uvs_get_device_count(void);
 
 int uvs_query_video_encoder(uvsobj_handle obj, uvs_video_codec_e videoCodec);
 int uvs_calc_buffer_size(uvs_frame_type_e frameType, int videoWidth, int videoHeight, int stride);
+int uvs_create_frame(uvs_frame_type_e frameType, int videoWidth, int videoHeight, int nStride, uvs_frame_info_t *info);
+int uvs_destroy_frame(uvs_frame_info_t *info);
 
 int uvs_set_nosignal_image(const char *szFileName, uvs_draw_mode_e drawMode, const uvs_color_t *bkColor);
 

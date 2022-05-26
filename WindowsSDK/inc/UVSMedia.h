@@ -446,6 +446,8 @@ int UVSAPI uvs_get_device_count(void);
 
 int UVSAPI uvs_query_video_encoder(uvsobj_handle obj, uvs_video_codec_e videoCodec);
 int UVSAPI uvs_calc_buffer_size(uvs_frame_type_e frameType, int videoWidth, int videoHeight, int nStride);
+int UVSAPI uvs_create_frame(uvs_frame_type_e frameType, int videoWidth, int videoHeight, int nStride, uvs_frame_info_t *info);
+int UVSAPI uvs_destroy_frame(uvs_frame_info_t *info);
 
 int UVSAPI uvs_set_nosignal_image(const char *szFileName, uvs_draw_mode_e drawMode, COLORREF bkColor);
 int UVSAPI uvs_set_nosignal_imageW(const WCHAR *szFileName, uvs_draw_mode_e drawMode, COLORREF bkColor);
