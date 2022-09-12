@@ -8,6 +8,8 @@ QT_BEGIN_NAMESPACE
 namespace Ui { class Dialog; }
 QT_END_NAMESPACE
 
+class CMyPreview;
+
 class Dialog : public QDialog
 {
     Q_OBJECT
@@ -16,10 +18,10 @@ public:
     Dialog(QWidget *parent = nullptr);
     ~Dialog();
 
-protected:
     static void framePrint(const uvs_frame_info_t &frame);
     static void CALLBACK frameCallback(uvsobj_handle obj, const uvs_frame_info_t *frame, void *userData);
 
+protected:
     void showEvent(QShowEvent *event) override;
     void getFrameConvertParam(uvs_frame_convert_t &convert);
 
@@ -43,6 +45,8 @@ private slots:
 private:
     Ui::Dialog *ui;
     CDevSDK dev;
+
+    CMyPreview *preview = nullptr;
 
     bool audioCallback = false;
     bool videoCallback = false;

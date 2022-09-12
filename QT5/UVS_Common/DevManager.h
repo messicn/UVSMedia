@@ -245,7 +245,7 @@ public:
 #endif
     virtual ~CFramePreview();
 
-    int Preview(const uvs_frame_info_t *info);
+    int Preview(const uvs_frame_info_t &info);
     int PreviewSetRect(LPCRECT wndRect, LPCRECT cropRect, COLORREF bkColor);
 
 private:

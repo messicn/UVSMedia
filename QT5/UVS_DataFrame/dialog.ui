@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
+    <width>1126</width>
     <height>600</height>
    </rect>
   </property>
@@ -18,7 +18,7 @@
     <rect>
      <x>10</x>
      <y>10</y>
-     <width>781</width>
+     <width>671</width>
      <height>451</height>
     </rect>
    </property>
@@ -213,6 +213,19 @@
    </property>
    <property name="text">
     <string>Audio Frame Lock</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="video2">
+   <property name="geometry">
+    <rect>
+     <x>700</x>
+     <y>10</y>
+     <width>411</width>
+     <height>301</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Video Frame Copy</string>
    </property>
   </widget>
  </widget>

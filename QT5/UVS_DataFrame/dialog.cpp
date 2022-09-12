@@ -4,7 +4,103 @@
 #include <QDebug>
 #include <QFileDialog>
 
-#define COPY_FRAME_TO_USER_BUFFER 1
+#define COPY_FRAME_TO_USER_BUFFER 1 // 0 copy to internal static buffer, 1 copy to user buffer
+
+class CMyPreview : public CFramePreview
+{
+public:
+    CMyPreview(HWND hwnd) : CFramePreview(hwnd)
+    {
+        memset(&frame, 0, sizeof(frame));
+    }
+    ~CMyPreview()
+    {
+        DestroyFrame();
+    }
+
+    int CopyFrame(CDevSDK &dev, uvs_frame_convert_t &frameConvert)
+    {
+        int r;
+
+        // frame type convert, uvs_frame_NONE means the format not convert
+        frameConvert.frameType = uvs_frame_NONE;
+
+    #if COPY_FRAME_TO_USER_BUFFER
+        // get current video format
+        uvs_video_format_t format;
+        r = dev.GetVideoProperty(format);
+        if (r != UVS_OK)
+        {
+            return r;
+        }
+
+        // calc video frame size
+        int width = format.videoWidth;
+        int height = format.videoHeight;
+        if (0 != frameConvert.scaleWidth && 0 != frameConvert.scaleHeight)
+        {
+            width = frameConvert.scaleWidth;
+            height = frameConvert.scaleHeight;
+        }
+        else if (uvs_rotate_90 == frameConvert.rotateMode || uvs_rotate_270 == frameConvert.rotateMode)
+        {
+            width = format.videoHeight;
+            height = format.videoWidth;
+        }
+
+        // create user video frame
+        uvs_frame_type_e frameType = uvs_frame_NONE == frameConvert.frameType ? format.frameType : frameConvert.frameType;
+        if (frame.frameType != frameType ||
+            frame.videoWidth < width ||
+            frame.videoHeight < height)
+        {
+            DestroyFrame();
+
+            r = uvs_create_frame(frameType, width, height, 0, &frame);
+            flags = UVS_OK == r;
+            if (r != UVS_OK)
+            {
+                return r;
+            }
+        }
+    #endif
+
+        // video frame copy & preview
+        if (frameConvert.frameType != uvs_frame_NONE ||
+            frameConvert.bFlip || frameConvert.bMirror ||
+            frameConvert.rotateMode != uvs_rotate_none ||
+            (frameConvert.scaleWidth > 0 && frameConvert.scaleHeight > 0))
+        {
+            r = dev.CopyVideoFrame(frame, 1000, &frameConvert);
+        }
+        else
+        {
+            // without conversion
+            r = dev.CopyVideoFrame(frame);
+        }
+
+        if (UVS_OK == r)
+        {
+            Preview(frame);
+            Dialog::framePrint(frame);
+        }
+
+        return r;
+    }
+
+private:
+    void DestroyFrame()
+    {
+        if (flags)
+        {
+            uvs_destroy_frame(&frame);
+            flags = false;
+        }
+    }
+
+    bool flags = false;
+    uvs_frame_info_t frame;
+};
 
 Dialog::Dialog(QWidget *parent)
     : QDialog(parent)
@@ -13,6 +109,7 @@ Dialog::Dialog(QWidget *parent)
 {
     ui->setupUi(this);
     ui->video->setStyleSheet("border:1px solid black");
+    ui->video2->setStyleSheet("border:1px solid black");
     ui->rotate->addItems(QStringList("None") << "90" << "180" << "270");
     ui->scale->addItems(QStringList("None") << "640 x 480" << "3840 x 2160");
 
@@ -29,6 +126,8 @@ Dialog::Dialog(QWidget *parent)
             dev.SetAudioDevice(uvs_dev_audio_capture, info[0]);
         }
         dev.DeviceStart();
+
+        preview = new CMyPreview(reinterpret_cast< HWND >(ui->video2->winId()));
     }
 }
 
@@ -42,6 +141,12 @@ Dialog::~Dialog()
 
         dev.DeviceClose();
     }
+
+    if (preview)
+    {
+        delete preview;
+    }
+
     delete ui;
 }
 
@@ -195,44 +300,12 @@ void Dialog::on_vcopy_clicked()
 {
     if (dev)
     {
-        uvs_frame_info_t frame = { uvs_frame_NONE };
-
         uvs_frame_convert_t convert;
         getFrameConvertParam(convert);
-
-#if COPY_FRAME_TO_USER_BUFFER
-        uvs_video_format_t format;
-        if (dev.GetVideoProperty(format) != UVS_OK) return;
-
-        /* Calc buffer size */
-        int width = qMax(format.videoWidth, convert.scaleWidth);
-        int height = qMax(format.videoHeight, convert.scaleHeight);
-        int sz = CDevSDK::CalcBufferSize(format.frameType, width, height);
-
-        static quint8 buf[4 * 3840 * 2160];
-
-        /* Set user buffer */
-        frame.frameData = buf;
-        frame.frameDataLen = sz;
-
-        /* Set data stride, 0 default */
-        /* frame.videoDataStride[0] = 0; */
-        /* frame.videoDataStride[1] = 0; */
-#endif
-        if (convert.frameType != uvs_frame_NONE ||
-            convert.bFlip || convert.bMirror ||
-            convert.rotateMode != uvs_rotate_none ||
-            (convert.scaleWidth > 0 && convert.scaleHeight > 0))
+        if (preview)
         {
-            if (dev.CopyVideoFrame(frame, 1000, &convert) != UVS_OK) return;
+            preview->CopyFrame(dev, convert);
         }
-        else
-        {
-            // without conversion
-            if (dev.CopyVideoFrame(frame) != UVS_OK) return;
-        }
-
-        framePrint(frame);
     }
 }
 

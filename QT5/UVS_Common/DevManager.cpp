@@ -813,9 +813,9 @@ CFramePreview::~CFramePreview()
 	}
 }
 
-int CFramePreview::Preview(const uvs_frame_info_t *info)
+int CFramePreview::Preview(const uvs_frame_info_t &info)
 {
-	return uvs_frame_preview(m_Handle, info);
+    return uvs_frame_preview(m_Handle, &info);
 }
 
 int CFramePreview::PreviewSetRect(LPCRECT wndRect, LPCRECT cropRect, COLORREF bkColor)
