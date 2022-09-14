@@ -22,7 +22,7 @@ public:
     {
         int r;
 
-        // frame type convert, uvs_frame_NONE means the format not convert
+        // frame type convert, uvs_frame_NONE means the type not change
         frameConvert.frameType = uvs_frame_NONE;
 
     #if COPY_FRAME_TO_USER_BUFFER
@@ -63,6 +63,9 @@ public:
                 return r;
             }
         }
+    #else
+        // frame reset
+        memset(&frame, 0, sizeof(frame));
     #endif
 
         // video frame copy & preview

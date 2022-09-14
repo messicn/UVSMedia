@@ -100,6 +100,16 @@ int CDevSDK::CalcBufferSize(uvs_frame_type_e frameType, int nWidth, int nHeight,
 	return uvs_calc_buffer_size(frameType, nWidth, nHeight, nStride);
 }
 
+int CDevSDK::CreateFrame(uvs_frame_type_e frameType, int nWidth, int nHeight, uvs_frame_info_t &frame, int nStride)
+{
+	return uvs_create_frame(frameType, nWidth, nHeight, nStride, &frame);
+}
+
+int CDevSDK::DestroyFrame(uvs_frame_info_t &frame)
+{
+	return uvs_destroy_frame(&frame);
+}
+
 int CDevSDK::SetNosignalImage(LPCTSTR szFileName, uvs_draw_mode_e drawMode, COLORREF bkColor)
 {
 #ifdef UNICODE

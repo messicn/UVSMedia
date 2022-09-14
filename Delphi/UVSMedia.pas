@@ -414,6 +414,10 @@ function uvs_query_video_encoder(dev: UVSObj; codec: VideoCodec): Integer;
 function uvs_calc_buffer_size(frame: FrameType; width: Integer; height: Integer;
   stride: Integer): Integer; stdcall; external uvsdll;
 
+function uvs_create_frame(frame: FrameType; width: Integer; height: Integer;
+  stride: Integer; var info: TFrameInfo): Integer; stdcall; external uvsdll;
+function uvs_destroy_frame(var frame: TFrameInfo): Integer; stdcall; external uvsdll;
+
 function uvs_set_nosignal_image(imageFile: PAnsiChar; draw: DrawMode;
   backColor: COLORREF): Integer; stdcall; external uvsdll;
 

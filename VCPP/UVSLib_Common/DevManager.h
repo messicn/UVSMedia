@@ -40,6 +40,8 @@ public:
 	static int SetDeviceCallback(pUVSDeviceCallbackX pCB, void *pUserData=NULL);
 	static int QueryVideoEncoder(uvs_video_codec_e videoCodec);
 	static int CalcBufferSize(uvs_frame_type_e frameType, int nWidth, int nHeight, int nStride=0/* 4bytes aligned */);
+	static int CreateFrame(uvs_frame_type_e frameType, int nWidth, int nHeight, uvs_frame_info_t &frame, int nStride=0/* 4bytes aligned */);
+	static int DestroyFrame(uvs_frame_info_t &frame);
 	static int SetNosignalImage(LPCTSTR szFileName, uvs_draw_mode_e drawMode=uvs_draw_stretch, COLORREF bkColor=RGB(0, 0, 0));
 	static int EnumDevice(uvs_dev_type_e devType, uvs_dev_info_tX devInfo[], int &devInfoNum/* [IN][OUT] */);
 

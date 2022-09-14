@@ -399,6 +399,12 @@ namespace UVS_Media
         [DllImport(uvsdll)]
         public static extern int uvs_calc_buffer_size(int frameType, int width, int height, int stride);
 
+        [DllImport(uvsdll)]
+        public static extern int uvs_create_frame(int frameType, int width, int height, int stride, out FrameInfo frame);
+
+        [DllImport(uvsdll)]
+        public static extern int uvs_destroy_frame(ref FrameInfo frame);
+
         [DllImport(uvsdll, EntryPoint = "uvs_set_nosignal_imageW")]
         public static extern int uvs_set_nosignal_image([MarshalAs(UnmanagedType.LPTStr)] string filename, int mode, int backgroundColor);
 
