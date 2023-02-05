@@ -23,7 +23,7 @@ namespace UVS_Media
         public const int UVS_ERR_NOT_READY = -7;
         public const int UVS_ERR_NOT_SUPPORT = -8;
         public const int UVS_ERR_FILE_OPEN = -9;
-        public const int UVS_ERR_ALREADY_EXISTS = -1;
+        public const int UVS_ERR_ALREADY_EXISTS = -10;
 
         public const int UVS_STREAM_ALL = -1;
 

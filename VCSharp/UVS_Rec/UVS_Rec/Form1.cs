@@ -104,9 +104,9 @@ namespace UVS_Rec
                 else
                 {
                     int[] vcodec = new int[] { Dev.uvs_video_codec_intel_h264, Dev.uvs_video_codec_intel_h265,
-                                               Dev.uvs_video_codec_intel_jpeg, Dev.uvs_video_codec_nvidia_h264,
-                                               Dev.uvs_video_codec_nvidia_h265, Dev.uvs_video_codec_sw_h264 };
-                    int[] acodec = new int[] { Dev.uvs_audio_codec_none, Dev.uvs_audio_codec_AAC, Dev.uvs_audio_codec_AAC };
+                                               Dev.uvs_video_codec_nvidia_h264, Dev.uvs_video_codec_nvidia_h265,
+                                               Dev.uvs_video_codec_sw_h264 };
+                    int[] acodec = new int[] { Dev.uvs_audio_codec_none, Dev.uvs_audio_codec_AAC, Dev.uvs_audio_codec_MP3 };
                     int[] tusage = new int[] { Dev.uvs_target_usage_performance, Dev.uvs_target_usage_balance, Dev.uvs_target_usage_quality };
                     int[] rcmode = new int[] { Dev.uvs_video_rcmode_VBR, Dev.uvs_video_rcmode_CBR,
                                                Dev.uvs_video_rcmode_CQP, Dev.uvs_video_rcmode_AVBR };
